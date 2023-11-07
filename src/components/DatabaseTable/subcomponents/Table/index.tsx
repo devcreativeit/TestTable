@@ -82,13 +82,14 @@ export const Table = () => {
           {tableColsData.map((el, idx) => (
             <div
               className={clsx(
-                'w-full whitespace-nowrap font-bold h-8 pb-2 pl-3 tracking-tighter cursor-pointer',
+                'w-full whitespace-nowrap font-bold h-8 pb-2 pl-3 tracking-tighter cursor-pointer flex',
                 idx === selectedCol && '!bg-lightPrimary !text-white'
               )}
               key={idx}
               onClick={() => (idx === selectedCol ? setSelectedCol(null) : setSelectedCol(idx))}
             >
               {el}
+              {idx !== tableColsData.length - 1 && <div className="my-auto ml-auto w-[2px] h-4 bg-[#00000059]" />}
             </div>
           ))}
           {new Array(entriesAmount).fill(null).map((_, idx) => (
