@@ -8,7 +8,7 @@ export const Header = () => {
   const [selectedSection, setSelectedSection] = useState(sectionsData[0]);
 
   return (
-    <div className='mb-8'>
+    <div className="mb-8 h-[13.5%]">
       <div className="flex justify-between mb-5">
         <div className="text-2xl">Database</div>
         <div className="bg-[#0000000F] relative w-[395px] rounded-sm">

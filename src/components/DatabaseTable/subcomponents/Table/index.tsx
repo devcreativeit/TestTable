@@ -1,9 +1,12 @@
+import { clsx } from 'clsx';
+import { useState } from 'react';
 import DownloadIcon from '../../../../../public/filters/file_download_FILL0_wght400_GRAD0_opsz48.svg';
 import UploadIcon from '../../../../../public/filters/file_upload_FILL0_wght400_GRAD0_opsz48 1.svg';
 import FilterIcon from '../../../../../public/filters/FilterListFilled.svg';
 import ReplaceIcon from '../../../../../public/filters/find_replace_FILL1_wght400_GRAD0_opsz48 1.svg';
 import DensityIcon from '../../../../../public/filters/MenuFilled.svg';
 import ColumnsIcon from '../../../../../public/filters/ViewModuleFilled.svg';
+import { SaveArea } from '../SaveArea';
 import { TableRow } from '../TableRow';
 
 interface FiltrationDataType {
@@ -38,7 +41,7 @@ const filtrationData: FiltrationDataType[] = [
   },
 ];
 
-const tableHeadingsData = [
+const tableColsData = [
   'Customer ID',
   'User Name',
   'First Name',
@@ -51,11 +54,12 @@ const tableHeadingsData = [
   'Make Available',
 ];
 
-const entriesAmount = 36;
+const entriesAmount = 17;
 
 export const Table = () => {
+  const [selectedCol, setSelectedCol] = useState<number | null>(null);
   return (
-    <>
+    <div>
       <div className="flex items-end justify-between">
         <div className="flex gap-2">
           {filtrationData.map((el, idx) => (
@@ -70,26 +74,29 @@ export const Table = () => {
         </div>
         <div className="text-[#00000099] text-lg">50 out of 52366</div>
       </div>
-      <div className="w-full overflow-auto mt-5">
-        <div className="grid grid-rows-1 grid-cols-[0.8fr_repeat(10,2fr)]">
+      <div className="w-full mt-5 h-[63vh] overflow-auto">
+        <div className="grid grid-cols-[0.8fr_repeat(10,2fr)] w-fit overflow-auto h-full">
           <div className="flex items-center justify-center">
             <input type="checkbox" className="w-4 h-4" />
           </div>
-          {tableHeadingsData.map((el, idx) => (
+          {tableColsData.map((el, idx) => (
             <div
-              className="h-full font-bold whitespace-nowrap pb-2 pl-3 tracking-tighter"
+              className={clsx(
+                'w-full whitespace-nowrap font-bold h-8 pb-2 pl-3 tracking-tighter cursor-pointer',
+                idx === selectedCol && '!bg-lightPrimary !text-white'
+              )}
               key={idx}
+              onClick={() => (idx === selectedCol ? setSelectedCol(null) : setSelectedCol(idx))}
             >
               {el}
             </div>
           ))}
-        </div>
-        <div className="grid grid-cols-[0.8fr_repeat(10,2fr)]">
           {new Array(entriesAmount).fill(null).map((_, idx) => (
-            <TableRow isDarker={idx % 2 !== 1} />
+            <TableRow isDarker={idx % 2 !== 1} selectedCol={selectedCol} key={idx} />
           ))}
         </div>
       </div>
-    </>
+      <SaveArea />
+    </div>
   );
 };

@@ -42,7 +42,7 @@ export const Navigation = () => {
     <nav className="flex flex-col w-full px-2 pt-7 gap-y-4">
       {navigationData.map((el, idx) =>
         el.sub?.length ? (
-          <div>
+          <div key={idx}>
             <div className="text-black pl-4 font-bold py-1 hover:bg-[#0000000A] relative" key={idx}>
               {el.text}
               <div className="w-2 h-2 border-t-[2px] border-l-[2px] rotate-45 top-1/2 right-6 border-[#0000008A] absolute" />

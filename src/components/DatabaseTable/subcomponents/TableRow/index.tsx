@@ -4,9 +4,10 @@ import { Cell } from '../Cell';
 
 interface TableRowProps {
   isDarker?: boolean;
+  selectedCol: number | null;
 }
 
-export const TableRow = ({ isDarker }: TableRowProps) => {
+export const TableRow = ({ isDarker, selectedCol }: TableRowProps) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
@@ -21,7 +22,11 @@ export const TableRow = ({ isDarker }: TableRowProps) => {
         <input type="checkbox" className="w-4 h-4" onChange={() => setIsSelected(!isSelected)} />
       </div>
       {new Array(10).fill(null).map((_, cellIdx) => (
-        <Cell key={cellIdx} isDarker={isDarker} isSelected={isSelected} />
+        <Cell
+          key={cellIdx}
+          isDarker={isDarker}
+          isSelected={isSelected || cellIdx === selectedCol}
+        />
       ))}
     </>
   );

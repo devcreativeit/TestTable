@@ -2,7 +2,7 @@ import { Header, Table } from './subcomponents';
 
 export const DatabaseTable = () => {
   return (
-    <main className="w-[1288px] p-6">
+    <main className="p-6 h-screen overflow-hidden">
       <Header />
       <Table />
     </main>

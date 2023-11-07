@@ -14,7 +14,7 @@ export const Cell = ({ isDarker, isSelected }: CellProps) => {
       className={clsx(
         isDarker && 'bg-[#0000000A]',
         'border-t-[#0000001F] border-t-2',
-        isSelected && '!bg-lightPrimary'
+        isSelected && '!bg-lightPrimary !text-white'
       )}
     >
       {isEdit ? (

@@ -1,11 +1,15 @@
-import { Aside } from "./components/Aside/index.js";
-import { DatabaseTable } from "./components/DatabaseTable/index.js";
+import { Aside } from './components/Aside/index.js';
+import { DatabaseTable } from './components/DatabaseTable/index.js';
 
 const App = () => {
-  return <div className="w-screen h-screen bg-white flex mx-auto">
-    <Aside />
-    <DatabaseTable />
-  </div>;
+  return (
+    <div className="max-w-screen max-h-screen bg-white flex justify-center">
+      <div className="w-full flex">
+        <Aside />
+        <DatabaseTable />
+      </div>
+    </div>
+  );
 };
 
 export default App;
