@@ -1,7 +1,7 @@
 import { Aside } from './components/Aside/index.js';
 import { DatabaseTable } from './components/DatabaseTable/index.js';
 
-const App = () => {
+export const App = () => {
   return (
     <div className="max-w-screen max-h-screen bg-white flex justify-center">
       <div className="w-full flex">
@@ -11,5 +11,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;
