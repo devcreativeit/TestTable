@@ -6,6 +6,7 @@ export default {
       colors: {
         mainBg: '#FAFAFA',
         lightPrimary: '#1A73E8',
+        lightError: "#D32F2F"
       },
     },
   },

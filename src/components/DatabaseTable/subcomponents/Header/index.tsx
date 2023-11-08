@@ -1,6 +1,8 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import SearchGlass from '../../../../../public/Icon.svg';
+import BackArrow from '../../../../../public/backArrow.svg';
+import NotificationBell from '../../../../../public/notificationBell.svg';
 
 const sectionsData = ['Frame', 'Material', 'Edge Type', 'Shape'];
 
@@ -16,9 +18,13 @@ export const Header = () => {
           <input placeholder="Search" className="bg-transparent h-full ml-11 outline-none" />
         </div>
         <div className="flex gap-x-3">
-          <button className="shadow-md rounded-sm w-12 h-full"></button>
-          <button className="shadow-md rounded-sm w-12 h-full"></button>
-          <button className="shadow-md rounded-sm bg-lightPrimary text-white py-2 px-3">
+          <button className="shadow-md flex items-center justify-center rounded-sm w-12 h-full">
+            <img src={NotificationBell} />
+          </button>
+          <button className="shadow-md flex items-center justify-center rounded-sm w-12 h-full">
+            <img src={BackArrow} />
+          </button>
+          <button className="shadow-lg rounded-sm bg-lightPrimary text-white py-2 px-3">
             ADD NEW
           </button>
         </div>
