@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import DownloadIcon from '../../../../../public/filters/file_download_FILL0_wght400_GRAD0_opsz48.svg';
 import UploadIcon from '../../../../../public/filters/file_upload_FILL0_wght400_GRAD0_opsz48 1.svg';
 import FilterIcon from '../../../../../public/filters/FilterListFilled.svg';
@@ -88,10 +88,61 @@ const tableColsData: TableColsDataType[] = [
   { text: 'Make Available' },
 ];
 
-const entriesAmount = 17;
+const rowsAmount = 15;
 
 export const Table = () => {
   const [selectedCol, setSelectedCol] = useState<number | null>(null);
+  const [allSelected, setAllSelected] = useState(false);
+  const [tableData, setTableData] = useState(
+    new Array(rowsAmount).fill(null).map(() =>
+      new Array(tableColsData.length).fill(null).map((_, idx) => ({
+        id: idx,
+        isSelected: false,
+      }))
+    )
+  );
+
+  const selectAll = (isSelected: boolean) => {
+    setTableData(
+      tableData.map((row) =>
+        row.map((cell) => ({
+          id: cell.id,
+          isSelected: isSelected,
+        }))
+      )
+    );
+    setAllSelected(isSelected);
+  };
+
+  const selectRow = useCallback(
+    (rowNum: number, isSelected: boolean) => {
+      setTableData(
+        tableData.map((row, idx) =>
+          idx === rowNum
+            ? row.map((cell) => ({
+                id: cell.id,
+                isSelected: isSelected,
+              }))
+            : row
+        )
+      );
+    },
+    [tableData]
+  );
+
+  const selectCol = useCallback(
+    (selectedCol: number | null) => {
+      setTableData(
+        tableData.map((row) =>
+          row.map((cell, idx) => ({
+            id: cell.id,
+            isSelected: idx === selectedCol,
+          }))
+        )
+      );
+    },
+    [tableData]
+  );
 
   return (
     <div>
@@ -104,7 +155,11 @@ export const Table = () => {
             >
               <img src={el.image} />
               {el.text}
-              {el.notifications && <div className='rounded-full bg-lightError text-white w-4 h-4 flex items-center justify-center my-auto'>{el.notifications}</div>}
+              {el.notifications && (
+                <div className="rounded-full bg-lightError text-white w-4 h-4 flex items-center justify-center my-auto">
+                  {el.notifications}
+                </div>
+              )}
             </button>
           ))}
         </div>
@@ -113,7 +168,11 @@ export const Table = () => {
       <div className="w-full mt-5 h-[63vh] overflow-auto">
         <div className="grid grid-cols-[0.8fr_repeat(10,2fr)] w-fit overflow-auto h-full">
           <div className="flex items-center justify-center">
-            <input type="checkbox" className="w-4 h-4" />
+            <input
+              type="checkbox"
+              className="w-4 h-4"
+              onChange={(e) => selectAll(e.target.checked)}
+            />
           </div>
           {tableColsData.map((el, idx) => (
             <div
@@ -122,7 +181,14 @@ export const Table = () => {
                 idx === selectedCol && '!bg-lightPrimary !text-white'
               )}
               key={idx}
-              onClick={() => (idx === selectedCol ? setSelectedCol(null) : setSelectedCol(idx))}
+              onClick={() => {
+                if (idx === selectedCol) {
+                  setSelectedCol(null);
+                } else {
+                  setSelectedCol(idx);
+                  selectCol(idx);
+                }
+              }}
             >
               {el.text}
               <div className="flex gap-1">
@@ -140,8 +206,15 @@ export const Table = () => {
               </div>
             </div>
           ))}
-          {new Array(entriesAmount).fill(null).map((_, idx) => (
-            <TableRow isDarker={idx % 2 !== 1} selectedCol={selectedCol} key={idx} />
+          {tableData.map((el, idx) => (
+            <TableRow
+              isDarker={idx % 2 !== 1}
+              tableRowData={el}
+              selectRow={selectRow}
+              isRowSelected={allSelected}
+              rowIdx={idx}
+              key={idx}
+            />
           ))}
         </div>
       </div>

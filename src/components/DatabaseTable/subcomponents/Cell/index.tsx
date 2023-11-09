@@ -24,13 +24,13 @@ export const Cell = ({ isDarker, isSelected }: CellProps) => {
       className={clsx(
         'border-t-[#0000001F] border-t-2 w-36',
         isDarker && 'bg-[#0000000A]',
-        isSelected && '!bg-lightPrimary !text-white'
+        isSelected && '!bg-lightPrimary !text-white',
       )}
     >
       {isEdit ? (
         <input
           ref={inputRef}
-          className="w-full h-full bg-transparent pl-3 py-[0.19rem] inline outline-lightPrimary"
+          className={clsx("w-full h-full bg-transparent pl-3 py-[0.19rem] inline outline-lightPrimary", isEdit && "!bg-lightPrimary")}
           placeholder="Editable"
           defaultValue={text}
           onChange={(e) => setText(e.target.value)}

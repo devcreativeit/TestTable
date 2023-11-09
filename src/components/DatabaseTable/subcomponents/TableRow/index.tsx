@@ -1,14 +1,36 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Cell } from '../Cell';
+
+interface Cell {
+  id: number;
+  isSelected: boolean;
+}
 
 interface TableRowProps {
   isDarker?: boolean;
-  selectedCol: number | null;
+  tableRowData: Cell[];
+  selectRow: (rowNum: number, isSelected: boolean) => void;
+  rowIdx: number;
+  isRowSelected: boolean;
 }
 
-export const TableRow = ({ isDarker, selectedCol }: TableRowProps) => {
+export const TableRow = ({
+  isDarker,
+  tableRowData,
+  selectRow,
+  rowIdx,
+  isRowSelected,
+}: TableRowProps) => {
   const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(() => {
+    setIsSelected(isRowSelected);
+  }, [isRowSelected]);
+
+  useEffect(() => {
+    selectRow(rowIdx, isSelected);
+  }, [isSelected, rowIdx, selectRow]);
 
   return (
     <>
@@ -19,14 +41,15 @@ export const TableRow = ({ isDarker, selectedCol }: TableRowProps) => {
           isSelected && '!bg-lightPrimary'
         )}
       >
-        <input type="checkbox" className="w-4 h-4" onChange={() => setIsSelected(!isSelected)} />
-      </div>
-      {new Array(10).fill(null).map((_, cellIdx) => (
-        <Cell
-          key={cellIdx}
-          isDarker={isDarker}
-          isSelected={isSelected || cellIdx === selectedCol}
+        <input
+          type="checkbox"
+          className="w-4 h-4"
+          checked={isSelected}
+          onChange={() => setIsSelected(!isSelected)}
         />
+      </div>
+      {tableRowData.map((el, cellIdx) => (
+        <Cell key={cellIdx} isDarker={isDarker} isSelected={el.isSelected} />
       ))}
     </>
   );
